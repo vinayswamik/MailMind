@@ -1,0 +1,53 @@
+# macOS
+.DS_Store
+
+# Xcode — user-specific (never commit)
+**/xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Xcode workspace user data (keep xcshareddata if you share schemes)
+*.xcworkspace/xcuserdata/
+
+# Build artifacts
+build/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+
+# CocoaPods / Carthage (if you add them later)
+Pods/
+Carthage/Build/
+
+# Fastlane local outputs
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Local env / secrets overrides (use templates + docs instead)
+.env
+.env.*
+**/Secrets.xcconfig
+**/Local.xcconfig
+
+# Certificates & provisioning (never commit)
+*.mobileprovision
+*.p12
+*.cer
+AuthKey_*.p8
+
+# --- Public iOS showcase: keep secrets & private server out of git ---
+/backend/
+
+# Real Info.plist (copy from Info.plist.example; see README)
+MailMind/Info.plist
+
+# Internal ops / handoff (optional; remove these lines if you want them public)
+APNS_WHEN_READY.md
+CLAUDE_HANDOFF.md

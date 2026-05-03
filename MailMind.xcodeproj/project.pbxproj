@@ -1,0 +1,658 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A2B3C4D5E6F708190A0B0C1 /* MailMindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B1 /* MailMindApp.swift */; };
+		1A2B3C4D5E6F708190A0B0C2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B2 /* ContentView.swift */; };
+		1A2B3C4D5E6F708190A0B0C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B3 /* LaunchScreen.storyboard */; };
+		1A2B3C4D5E6F708190A0B0C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B4 /* Assets.xcassets */; };
+		1A2B3C4D5E6F708190A0B0C5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B6 /* HomeView.swift */; };
+		1A2B3C4D5E6F708190A0B0C6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B7 /* SettingsView.swift */; };
+		1A2B3C4D5E6F708190A0B0C7 /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B8 /* AccountStore.swift */; };
+		1A2B3C4D5E6F708190A0B0C8 /* LLMKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0B9 /* LLMKeyStore.swift */; };
+		1A2B3C4D5E6F708190A0B0C9 /* EmailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0BA /* EmailRow.swift */; };
+		1A2B3C4D5E6F708190A0B0CA /* CategorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0BB /* CategorySection.swift */; };
+		1A2B3C4D5E6F708190A0B0CB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0BC /* MockData.swift */; };
+		1A2B3C4D5E6F708190A0B0CC /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0BD /* CategoryStore.swift */; };
+		1A2B3C4D5E6F708190A0B0CD /* AddCategorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0BE /* AddCategorySheet.swift */; };
+		1A2B3C4D5E6F708190A0B0CE /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0BF /* NetworkService.swift */; };
+		1A2B3C4D5E6F708190A0B0CF /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0B0C0 /* MockNetworkService.swift */; };
+		1A2B3C4D5E6F708190A0B0D4 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C101 /* OnboardingView.swift */; };
+		1A2B3C4D5E6F708190A0B0D5 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C102 /* HapticManager.swift */; };
+		1A2B3C4D5E6F708190A0B0D6 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C103 /* ToastView.swift */; };
+		1A2B3C4D5E6F708190A0B0D7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C104 /* ToastManager.swift */; };
+		1A2B3C4D5E6F708190A0B0D8 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C105 /* AboutView.swift */; };
+		1A2B3C4D5E6F708190A0B0D9 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C106 /* ShimmerView.swift */; };
+		1A2B3C4D5E6F708190A0B0DA /* ArchiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C201 /* ArchiveStore.swift */; };
+		1A2B3C4D5E6F708190A0B0DB /* ArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C202 /* ArchiveView.swift */; };
+		1A2B3C4D5E6F708190A0B0DC /* EmailDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C203 /* EmailDetailView.swift */; };
+		1A2B3C4D5E6F708190A0B0DD /* CategoryIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708190A0C204 /* CategoryIcon.swift */; };
+		A1AD289B2FA2F9DE001570FF /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = A1AD289A2FA2F9DE001570FF /* GoogleSignIn */; };
+		A1AD289D2FA2F9DE001570FF /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A1AD289C2FA2F9DE001570FF /* GoogleSignInSwift */; };
+		A1AD28A22FA2FD24001570FF /* GmailTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AD28A12FA2FD24001570FF /* GmailTokenStore.swift */; };
+		A1AD28A42FA2FDCE001570FF /* GoogleAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AD28A32FA2FDCE001570FF /* GoogleAuthService.swift */; };
+		B4C3D2E1F0A9876543210002 /* RevealSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C3D2E1F0A9876543210001 /* RevealSwipeActions.swift */; };
+		C0DE00000000000000000002 /* ProcessedMessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000001 /* ProcessedMessageStore.swift */; };
+		C0DE00000000000000000004 /* EmailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000003 /* EmailStore.swift */; };
+		C0DE00000000000000000006 /* GmailAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000005 /* GmailAPIClient.swift */; };
+		C0DE00000000000000000008 /* AppleIntelligenceGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000007 /* AppleIntelligenceGate.swift */; };
+		C0DE0000000000000000000A /* OnDeviceLLMService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000009 /* OnDeviceLLMService.swift */; };
+		C0DE0000000000000000000C /* EmailProcessingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE0000000000000000000B /* EmailProcessingService.swift */; };
+		C0DE0000000000000000000E /* GmailSyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE0000000000000000000D /* GmailSyncCoordinator.swift */; };
+		C0DE00000000000000000010 /* DeveloperSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE0000000000000000000F /* DeveloperSettingsView.swift */; };
+		C0DE00000000000000000014 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000013 /* GRDB */; };
+		E7F7091C000000021 /* LaunchMarkLaunch.png in Resources */ = {isa = PBXBuildFile; fileRef = E7F7091C000000020 /* LaunchMarkLaunch.png */; };
+		E7F7091C000000022 /* LaunchMarkLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F7091C000000011 /* LaunchMarkLogo.swift */; };
+		F10000000000000000000003 /* MailMindServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* MailMindServiceProtocols.swift */; };
+		F10000000000000000000004 /* SettingsSkillEditorViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000002 /* SettingsSkillEditorViews.swift */; };
+		B1000000000000000000000B /* MailMindTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* MailMindTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1A2B3C4D5E6F708190A0B0A1 /* MailMind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MailMind.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000009 /* MailMindTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MailMindTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1000000000000000000000A /* MailMindTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailMindTests.swift; sourceTree = "<group>"; };
+		F10000000000000000000001 /* MailMindServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Protocols/MailMindServiceProtocols.swift; sourceTree = "<group>"; };
+		F10000000000000000000002 /* SettingsSkillEditorViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsSkillEditorViews.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B1 /* MailMindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/MailMindApp.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/ContentView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Home/HomeView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B8 /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/AccountStore.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0B9 /* LLMKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/LLMKeyStore.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0BA /* EmailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Email/EmailRow.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0BB /* CategorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/CategorySection.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0BC /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSupport/MockData.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0BD /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/CategoryStore.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0BE /* AddCategorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/AddCategorySheet.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0BF /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Network/NetworkService.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0B0C0 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Network/MockNetworkService.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C101 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Onboarding/OnboardingView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C102 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities/HapticManager.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C103 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/ToastView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C104 /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/ToastManager.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C105 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/AboutView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C106 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/ShimmerView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C201 /* ArchiveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/ArchiveStore.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C202 /* ArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Archive/ArchiveView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C203 /* EmailDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Email/EmailDetailView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708190A0C204 /* CategoryIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/CategoryIcon.swift; sourceTree = "<group>"; };
+		A1AD28A12FA2FD24001570FF /* GmailTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/GmailTokenStore.swift; sourceTree = "<group>"; };
+		A1AD28A32FA2FDCE001570FF /* GoogleAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Gmail/GoogleAuthService.swift; sourceTree = "<group>"; };
+		B4C3D2E1F0A9876543210001 /* RevealSwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/RevealSwipeActions.swift; sourceTree = "<group>"; };
+		C0DE00000000000000000001 /* ProcessedMessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/ProcessedMessageStore.swift; sourceTree = "<group>"; };
+		C0DE00000000000000000003 /* EmailStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/EmailStore.swift; sourceTree = "<group>"; };
+		C0DE00000000000000000005 /* GmailAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Gmail/GmailAPIClient.swift; sourceTree = "<group>"; };
+		C0DE00000000000000000007 /* AppleIntelligenceGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/AI/AppleIntelligenceGate.swift; sourceTree = "<group>"; };
+		C0DE00000000000000000009 /* OnDeviceLLMService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/AI/OnDeviceLLMService.swift; sourceTree = "<group>"; };
+		C0DE0000000000000000000B /* EmailProcessingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/AI/EmailProcessingService.swift; sourceTree = "<group>"; };
+		C0DE0000000000000000000D /* GmailSyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Gmail/GmailSyncCoordinator.swift; sourceTree = "<group>"; };
+		C0DE0000000000000000000F /* DeveloperSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/DeveloperSettingsView.swift; sourceTree = "<group>"; };
+		E7F7091C000000011 /* LaunchMarkLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Branding/LaunchMarkLogo.swift; sourceTree = "<group>"; };
+		E7F7091C000000020 /* LaunchMarkLaunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchMarkLaunch.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A2B3C4D5E6F708190A0B0D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1AD289B2FA2F9DE001570FF /* GoogleSignIn in Frameworks */,
+				A1AD289D2FA2F9DE001570FF /* GoogleSignInSwift in Frameworks */,
+				C0DE00000000000000000014 /* GRDB in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1000000000000000000000D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A2B3C4D5E6F708190A0B0E1 = {
+			isa = PBXGroup;
+			children = (
+				1A2B3C4D5E6F708190A0B0E2 /* MailMind */,
+				B1000000000000000000000C /* MailMindTests */,
+				1A2B3C4D5E6F708190A0B0E3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B1000000000000000000000C /* MailMindTests */ = {
+			isa = PBXGroup;
+			children = (
+				B1000000000000000000000A /* MailMindTests.swift */,
+			);
+			path = MailMindTests;
+			sourceTree = "<group>";
+		};
+		1A2B3C4D5E6F708190A0B0E2 /* MailMind */ = {
+			isa = PBXGroup;
+			children = (
+				A1AD28A32FA2FDCE001570FF /* GoogleAuthService.swift */,
+				A1AD28A12FA2FD24001570FF /* GmailTokenStore.swift */,
+				C0DE00000000000000000005 /* GmailAPIClient.swift */,
+				C0DE00000000000000000001 /* ProcessedMessageStore.swift */,
+				C0DE00000000000000000003 /* EmailStore.swift */,
+				C0DE00000000000000000009 /* OnDeviceLLMService.swift */,
+				C0DE0000000000000000000B /* EmailProcessingService.swift */,
+				C0DE0000000000000000000D /* GmailSyncCoordinator.swift */,
+				C0DE00000000000000000007 /* AppleIntelligenceGate.swift */,
+				F10000000000000000000001 /* MailMindServiceProtocols.swift */,
+				F10000000000000000000002 /* SettingsSkillEditorViews.swift */,
+				1A2B3C4D5E6F708190A0B0B1 /* MailMindApp.swift */,
+				1A2B3C4D5E6F708190A0B0B2 /* ContentView.swift */,
+				1A2B3C4D5E6F708190A0B0B6 /* HomeView.swift */,
+				E7F7091C000000011 /* LaunchMarkLogo.swift */,
+				1A2B3C4D5E6F708190A0B0BA /* EmailRow.swift */,
+				B4C3D2E1F0A9876543210001 /* RevealSwipeActions.swift */,
+				1A2B3C4D5E6F708190A0B0BB /* CategorySection.swift */,
+				1A2B3C4D5E6F708190A0B0BC /* MockData.swift */,
+				1A2B3C4D5E6F708190A0B0BD /* CategoryStore.swift */,
+				1A2B3C4D5E6F708190A0B0BE /* AddCategorySheet.swift */,
+				1A2B3C4D5E6F708190A0B0BF /* NetworkService.swift */,
+				1A2B3C4D5E6F708190A0B0C0 /* MockNetworkService.swift */,
+				1A2B3C4D5E6F708190A0C101 /* OnboardingView.swift */,
+				1A2B3C4D5E6F708190A0C102 /* HapticManager.swift */,
+				1A2B3C4D5E6F708190A0C103 /* ToastView.swift */,
+				1A2B3C4D5E6F708190A0C104 /* ToastManager.swift */,
+				1A2B3C4D5E6F708190A0C105 /* AboutView.swift */,
+				1A2B3C4D5E6F708190A0C106 /* ShimmerView.swift */,
+				1A2B3C4D5E6F708190A0C201 /* ArchiveStore.swift */,
+				1A2B3C4D5E6F708190A0C202 /* ArchiveView.swift */,
+				1A2B3C4D5E6F708190A0C203 /* EmailDetailView.swift */,
+				1A2B3C4D5E6F708190A0C204 /* CategoryIcon.swift */,
+				1A2B3C4D5E6F708190A0B0B7 /* SettingsView.swift */,
+				C0DE0000000000000000000F /* DeveloperSettingsView.swift */,
+				1A2B3C4D5E6F708190A0B0B8 /* AccountStore.swift */,
+				1A2B3C4D5E6F708190A0B0B9 /* LLMKeyStore.swift */,
+				1A2B3C4D5E6F708190A0B0B3 /* LaunchScreen.storyboard */,
+				E7F7091C000000020 /* LaunchMarkLaunch.png */,
+				1A2B3C4D5E6F708190A0B0B4 /* Assets.xcassets */,
+				1A2B3C4D5E6F708190A0B0B5 /* Info.plist */,
+			);
+			path = MailMind;
+			sourceTree = "<group>";
+		};
+		1A2B3C4D5E6F708190A0B0E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A2B3C4D5E6F708190A0B0A1 /* MailMind.app */,
+				B10000000000000000000009 /* MailMindTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1A2B3C4D5E6F708190A0B0F1 /* MailMind */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A2B3C4D5E6F708190A0B101 /* Build configuration list for PBXNativeTarget "MailMind" */;
+			buildPhases = (
+				1A2B3C4D5E6F708190A0B0D2 /* Sources */,
+				1A2B3C4D5E6F708190A0B0D1 /* Frameworks */,
+				1A2B3C4D5E6F708190A0B0D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MailMind;
+			packageProductDependencies = (
+				A1AD289A2FA2F9DE001570FF /* GoogleSignIn */,
+				A1AD289C2FA2F9DE001570FF /* GoogleSignInSwift */,
+				C0DE00000000000000000013 /* GRDB */,
+			);
+			productName = MailMind;
+			productReference = 1A2B3C4D5E6F708190A0B0A1 /* MailMind.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B1000000000000000000000E /* MailMindTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B10000000000000000000013 /* Build configuration list for PBXNativeTarget "MailMindTests" */;
+			buildPhases = (
+				B10000000000000000000002 /* Sources */,
+				B1000000000000000000000D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B1000000000000000000000F /* PBXTargetDependency */,
+			);
+			name = MailMindTests;
+			productName = MailMindTests;
+			productReference = B10000000000000000000009 /* MailMindTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXTargetDependency section */
+		B1000000000000000000000F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A2B3C4D5E6F708190A0B0F1 /* MailMind */;
+			targetProxy = B10000000000000000000010 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXContainerItemProxy section */
+		B10000000000000000000010 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A2B3C4D5E6F708190A0B0F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A2B3C4D5E6F708190A0B0F1;
+			remoteInfo = MailMind;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXProject section */
+		1A2B3C4D5E6F708190A0B0F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					1A2B3C4D5E6F708190A0B0F1 = {
+						CreatedOnToolsVersion = 15.4;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+					B1000000000000000000000E = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 1A2B3C4D5E6F708190A0B0F1;
+					};
+				};
+			};
+			buildConfigurationList = 1A2B3C4D5E6F708190A0B100 /* Build configuration list for PBXProject "MailMind" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1A2B3C4D5E6F708190A0B0E1;
+			packageReferences = (
+				A1AD28992FA2F9DE001570FF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				C0DE00000000000000000015 /* XCRemoteSwiftPackageReference "GRDB" */,
+			);
+			productRefGroup = 1A2B3C4D5E6F708190A0B0E3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1A2B3C4D5E6F708190A0B0F1 /* MailMind */,
+				B1000000000000000000000E /* MailMindTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1A2B3C4D5E6F708190A0B0D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A2B3C4D5E6F708190A0B0C3 /* LaunchScreen.storyboard in Resources */,
+				E7F7091C000000021 /* LaunchMarkLaunch.png in Resources */,
+				1A2B3C4D5E6F708190A0B0C4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1A2B3C4D5E6F708190A0B0D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1AD28A22FA2FD24001570FF /* GmailTokenStore.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C1 /* MailMindApp.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C2 /* ContentView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C5 /* HomeView.swift in Sources */,
+				E7F7091C000000022 /* LaunchMarkLogo.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C6 /* SettingsView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C7 /* AccountStore.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C8 /* LLMKeyStore.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0C9 /* EmailRow.swift in Sources */,
+				B4C3D2E1F0A9876543210002 /* RevealSwipeActions.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0CA /* CategorySection.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0CB /* MockData.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0CC /* CategoryStore.swift in Sources */,
+				A1AD28A42FA2FDCE001570FF /* GoogleAuthService.swift in Sources */,
+				C0DE00000000000000000006 /* GmailAPIClient.swift in Sources */,
+				C0DE00000000000000000002 /* ProcessedMessageStore.swift in Sources */,
+				C0DE00000000000000000004 /* EmailStore.swift in Sources */,
+				C0DE0000000000000000000A /* OnDeviceLLMService.swift in Sources */,
+				C0DE0000000000000000000C /* EmailProcessingService.swift in Sources */,
+				C0DE0000000000000000000E /* GmailSyncCoordinator.swift in Sources */,
+				C0DE00000000000000000008 /* AppleIntelligenceGate.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0CD /* AddCategorySheet.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0CE /* NetworkService.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0CF /* MockNetworkService.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0D4 /* OnboardingView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0D5 /* HapticManager.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0D6 /* ToastView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0D7 /* ToastManager.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0D8 /* AboutView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0D9 /* ShimmerView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0DA /* ArchiveStore.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0DB /* ArchiveView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0DC /* EmailDetailView.swift in Sources */,
+				1A2B3C4D5E6F708190A0B0DD /* CategoryIcon.swift in Sources */,
+				C0DE00000000000000000010 /* DeveloperSettingsView.swift in Sources */,
+				F10000000000000000000003 /* MailMindServiceProtocols.swift in Sources */,
+				F10000000000000000000004 /* SettingsSkillEditorViews.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B10000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1000000000000000000000B /* MailMindTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1A2B3C4D5E6F708190A0B102 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1A2B3C4D5E6F708190A0B103 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1A2B3C4D5E6F708190A0B104 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NY26DB2H94;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MailMind/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vinay.MailMind;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				ENABLE_TESTABILITY = YES;
+			};
+			name = Debug;
+		};
+		1A2B3C4D5E6F708190A0B105 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NY26DB2H94;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MailMind/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vinay.MailMind;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B10000000000000000000011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NY26DB2H94;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vinay.MailMindTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MailMind.app/MailMind";
+			};
+			name = Debug;
+		};
+		B10000000000000000000012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NY26DB2H94;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vinay.MailMindTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MailMind.app/MailMind";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A2B3C4D5E6F708190A0B100 /* Build configuration list for PBXProject "MailMind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A2B3C4D5E6F708190A0B102 /* Debug */,
+				1A2B3C4D5E6F708190A0B103 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A2B3C4D5E6F708190A0B101 /* Build configuration list for PBXNativeTarget "MailMind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A2B3C4D5E6F708190A0B104 /* Debug */,
+				1A2B3C4D5E6F708190A0B105 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B10000000000000000000013 /* Build configuration list for PBXNativeTarget "MailMindTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B10000000000000000000011 /* Debug */,
+				B10000000000000000000012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A1AD28992FA2F9DE001570FF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+		C0DE00000000000000000015 /* XCRemoteSwiftPackageReference "GRDB" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A1AD289A2FA2F9DE001570FF /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1AD28992FA2F9DE001570FF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		A1AD289C2FA2F9DE001570FF /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1AD28992FA2F9DE001570FF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		C0DE00000000000000000013 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000015 /* XCRemoteSwiftPackageReference "GRDB" */;
+			productName = GRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 1A2B3C4D5E6F708190A0B0F2 /* Project object */;
+}
