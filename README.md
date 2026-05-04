@@ -1,4 +1,6 @@
-
+<div align="center">
+  <img src="MailMind/LaunchMarkLaunch.png" alt="MailMind logo" width="280">
+</div>
 
 # MailMind
 
@@ -26,11 +28,6 @@ I built **MailMind** — an iPhone app for people who live in Gmail but want **l
 | **Background work**   | Background refresh and **silent push** hooks (when configured) so new mail can wake sync without you staring at the app.                                                                            |
 | **Skills & settings** | Customizable behavior in settings (including developer-oriented tools if you’re testing sync).                                                                                                      |
 
-
-
-
-This repository contains the **iOS app source** under the [MIT License](LICENSE). 
-
-
+This repository contains the **iOS app source** under the [MIT License](LICENSE).
 
 To build it yourself, copy `MailMind/Info.plist.example` to `MailMind/Info.plist`, add your Google Sign-In client ID and the other keys described in that file, then open `MailMind.xcodeproj` in Xcode.
