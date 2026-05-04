@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="MailMind/LaunchMarkLaunch.png" alt="MailMind logo" width="280">
+  <img src="MailMind/LaunchMarkLaunch.png" alt="MailMind logo" width="160">
 </div>
 
 # MailMind
