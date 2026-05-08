@@ -44,6 +44,40 @@ private enum MessageFailureDisposition {
     case pauseAccount(reason: String)
 }
 
+private struct RoutingContext {
+    let categories: [UserCategory]
+    let skillFiles: [UUID: String]
+}
+
+#if DEBUG
+private struct LLMSyncPerfStats {
+    var classifyCalls = 0
+    var classifyTotalMs = 0
+    var summarizeCalls = 0
+    var summarizeTotalMs = 0
+
+    var hasData: Bool {
+        classifyCalls > 0 || summarizeCalls > 0
+    }
+
+    mutating func recordClassify(ms: Int) {
+        classifyCalls += 1
+        classifyTotalMs += ms
+    }
+
+    mutating func recordSummarize(ms: Int) {
+        summarizeCalls += 1
+        summarizeTotalMs += ms
+    }
+
+    var summaryText: String {
+        let avgClassify = classifyCalls > 0 ? classifyTotalMs / classifyCalls : 0
+        let avgSummarize = summarizeCalls > 0 ? summarizeTotalMs / summarizeCalls : 0
+        return "classify avg \(avgClassify)ms (\(classifyCalls)x), summarize avg \(avgSummarize)ms (\(summarizeCalls)x)"
+    }
+}
+#endif
+
 enum LocalNotificationDeliveryResult {
     case delivered
     case permissionDenied
@@ -62,6 +96,7 @@ final class LocalNotificationService {
     func deliverCategorizedEmailNotification(
         email: Email,
         category: String,
+        gmailSubject: String,
         accountEmail: String,
         messageID: String
     ) async -> LocalNotificationDeliveryResult {
@@ -71,11 +106,13 @@ final class LocalNotificationService {
         }
 
         let content = UNMutableNotificationContent()
-        content.title = "New \(category) email"
-        content.subtitle = email.sender
-        content.body = Self.body(subject: email.subject, preview: email.preview)
+        let trimmedCategory = category.trimmingCharacters(in: .whitespacesAndNewlines)
+        content.title = trimmedCategory.isEmpty ? "MailMind" : trimmedCategory
+        content.body = Self.notificationBodyFromGmailSubject(gmailSubject)
         content.sound = .default
-        content.threadIdentifier = category
+        // Group by Gmail thread (fallback: message id). Using the category stacks every message in
+        // one thread so the summary line can repeat the category instead of each subject.
+        content.threadIdentifier = email.gmailThreadID ?? messageID
         content.userInfo = [
             "source": "MailMind",
             "category": category,
@@ -114,24 +151,18 @@ final class LocalNotificationService {
         }
     }
 
-    private static func body(subject: String, preview: String) -> String {
-        let trimmedSubject = subject.trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedPreview = preview.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        let body: String
-        if trimmedPreview.isEmpty {
-            body = trimmedSubject.isEmpty ? "Open MailMind to review it." : trimmedSubject
-        } else if trimmedSubject.isEmpty || trimmedSubject == "(No subject)" {
-            body = trimmedPreview
-        } else {
-            body = "\(trimmedSubject): \(trimmedPreview)"
+    /// Full Gmail subject for the notification body (single-line, system truncates in the banner).
+    private static func notificationBodyFromGmailSubject(_ raw: String) -> String {
+        let collapsed = raw
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "\r", with: "")
+        if collapsed.isEmpty {
+            return "(No subject)"
         }
-
-        let limit = 220
-        guard body.count > limit else {
-            return body
-        }
-        return String(body.prefix(limit)).trimmingCharacters(in: .whitespacesAndNewlines) + "..."
+        let limit = 4_000
+        guard collapsed.count > limit else { return collapsed }
+        return String(collapsed.prefix(limit)).trimmingCharacters(in: .whitespacesAndNewlines) + "..."
     }
 }
 
@@ -164,6 +195,11 @@ final class EmailProcessingService: ObservableObject {
         "CATEGORY_PROMOTIONS",
         "CATEGORY_UPDATES"
     ]
+    #if DEBUG
+    private let slowClassifyThresholdMs = 2_000
+    private let slowSummarizeThresholdMs = 2_000
+    private var llmPerfByAccount: [UUID: LLMSyncPerfStats] = [:]
+    #endif
 
     init(
         gmailClient: any GmailMailboxServing,
@@ -197,6 +233,10 @@ final class EmailProcessingService: ObservableObject {
 
     func sync(accountID: UUID) async throws {
         await locks.acquire(accountID)
+        #if DEBUG
+        resetLLMPerf(accountID: accountID)
+        defer { logAndClearLLMPerf(accountID: accountID) }
+        #endif
 
         do {
             try await performSync(accountID: accountID)
@@ -221,9 +261,11 @@ final class EmailProcessingService: ObservableObject {
             let messageIDs = try await gmailClient.listRecentMessageIDs(accountID: accountID, maxResults: limit)
             let account = try account(for: accountID)
 
-            let inserted = try await processMessages(messageIDs, account: account, force: true)
+            // Do not use force: true here — it bypasses the processed set and duplicates inbox entries
+            // when the same “recent N” action is run again.
+            let inserted = try await processMessages(messageIDs, account: account, force: false)
 
-            appendLog("Re-processed \(inserted) of \(messageIDs.count) recent message(s) for \(account.emailAddress).")
+            appendLog("Scanned \(messageIDs.count) recent message(s) for \(account.emailAddress); \(inserted) newly routed (already-processed IDs skipped).")
             await locks.release(accountID)
         } catch is CancellationError {
             await locks.release(accountID)
@@ -325,11 +367,27 @@ final class EmailProcessingService: ObservableObject {
         force: Bool,
         removePendingWhenTerminal: Bool = false
     ) async throws -> Int {
+        let routingContext = buildRoutingContext()
+        if routingContext == nil {
+            for messageID in messageIDs {
+                try Task.checkCancellation()
+                processedStore.markProcessed(messageID, account: account.id)
+                if removePendingWhenTerminal {
+                    processedStore.removePending(messageID, account: account.id)
+                }
+            }
+            return 0
+        }
         var inserted = 0
         for messageID in messageIDs {
             try Task.checkCancellation()
             do {
-                if try await processMessage(id: messageID, account: account, force: force) {
+                if try await processMessage(
+                    id: messageID,
+                    account: account,
+                    force: force,
+                    routingContext: routingContext
+                ) {
                     inserted += 1
                 }
                 if removePendingWhenTerminal {
@@ -398,7 +456,12 @@ final class EmailProcessingService: ObservableObject {
     }
 
     @discardableResult
-    private func processMessage(id messageID: String, account: GmailAccount, force: Bool) async throws -> Bool {
+    private func processMessage(
+        id messageID: String,
+        account: GmailAccount,
+        force: Bool,
+        routingContext: RoutingContext?
+    ) async throws -> Bool {
         if !force && processedStore.isProcessed(messageID, account: account.id) {
             return false
         }
@@ -428,30 +491,30 @@ final class EmailProcessingService: ObservableObject {
             return false
         }
 
-        let userCats = categoryStore.userCategories.filter(\.isEnabled)
-        let presetCats = categoryStore.presetCategories
-            .filter(\.isEnabled)
-            .map { preset in
-                UserCategory(name: preset.name, skillDescription: preset.skillDescription)
-            }
-        let categories = presetCats + userCats
-
-        guard !categories.isEmpty else {
+        guard let routingContext else {
             processedStore.markProcessed(messageID, account: account.id)
             return false
         }
-
-        let skillFiles = loadSkillFiles(for: userCats)
+        let categories = routingContext.categories
+        let skillFiles = routingContext.skillFiles
 
         // Pass 1 — classify. If the model is unsure, drop the email entirely.
+        let classifyStart = Date()
         let classification = try await llmService.classify(
             email: message,
             categories: categories,
             skillFiles: skillFiles
         )
+        let classifyDurationMs = Int(Date().timeIntervalSince(classifyStart) * 1000)
+        #if DEBUG
+        recordClassifyDuration(classifyDurationMs, accountID: account.id)
+        if classifyDurationMs >= slowClassifyThresholdMs {
+            appendLog("Slow LLM classify (\(classifyDurationMs)ms) for \(account.emailAddress), subject: \"\(message.subject)\".")
+        }
+        #endif
         guard classification.isMatched else {
             let confidenceText = String(format: "%.2f", classification.confidence)
-            appendLog("Skipped \"\(message.subject)\" — Uncategorized (conf \(confidenceText)).")
+            appendLog("Skipped \"\(message.subject)\" — Uncategorized (conf \(confidenceText), classify \(classifyDurationMs)ms).")
             processedStore.markProcessed(messageID, account: account.id)
             return false
         }
@@ -464,11 +527,19 @@ final class EmailProcessingService: ObservableObject {
             return skillFiles[cat.id]
         } ?? ""
 
+        let summarizeStart = Date()
         let summary = try await llmService.summarize(
             email: message,
             matchedCategoryName: classification.category,
             matchedSkillText: matchedSkillText
         )
+        let summarizeDurationMs = Int(Date().timeIntervalSince(summarizeStart) * 1000)
+        #if DEBUG
+        recordSummarizeDuration(summarizeDurationMs, accountID: account.id)
+        if summarizeDurationMs >= slowSummarizeThresholdMs {
+            appendLog("Slow LLM summarize (\(summarizeDurationMs)ms) for \(account.emailAddress), subject: \"\(message.subject)\".")
+        }
+        #endif
 
         let email = Email(
             sender: Self.senderName(from: message.from),
@@ -487,21 +558,31 @@ final class EmailProcessingService: ObservableObject {
         emailStore.insert(email, accountID: account.id, messageID: messageID, category: classification.category)
         categoryStore.insertEmail(email, at: 0, in: classification.category)
         processedStore.markProcessed(messageID, account: account.id)
-        await deliverNotification(email: email, category: classification.category, account: account, messageID: messageID)
+        await deliverNotification(
+            email: email,
+            category: classification.category,
+            gmailSubject: message.subject,
+            account: account,
+            messageID: messageID
+        )
         let confidenceText = String(format: "%.2f", classification.confidence)
-        appendLog("Routed \"\(message.subject)\" → \(classification.category) (conf \(confidenceText)).")
+        appendLog(
+            "Routed \"\(message.subject)\" → \(classification.category) (conf \(confidenceText), classify \(classifyDurationMs)ms, summarize \(summarizeDurationMs)ms)."
+        )
         return true
     }
 
     private func deliverNotification(
         email: Email,
         category: String,
+        gmailSubject: String,
         account: GmailAccount,
         messageID: String
     ) async {
         let result = await notificationService.deliverCategorizedEmailNotification(
             email: email,
             category: category,
+            gmailSubject: gmailSubject,
             accountEmail: account.emailAddress,
             messageID: messageID
         )
@@ -581,6 +662,23 @@ final class EmailProcessingService: ObservableObject {
         return skillFiles
     }
 
+    private func buildRoutingContext() -> RoutingContext? {
+        let userCats = categoryStore.userCategories.filter(\.isEnabled)
+        let presetCats = categoryStore.presetCategories
+            .filter(\.isEnabled)
+            .map { preset in
+                UserCategory(name: preset.name, skillDescription: preset.skillDescription)
+            }
+        let categories = presetCats + userCats
+        guard !categories.isEmpty else {
+            return nil
+        }
+        return RoutingContext(
+            categories: categories,
+            skillFiles: loadSkillFiles(for: userCats)
+        )
+    }
+
     private func appendLog(_ message: String) {
         let timestamp = Self.logFormatter.string(from: Date())
         syncLog.insert("[\(timestamp)] \(message)", at: 0)
@@ -588,6 +686,32 @@ final class EmailProcessingService: ObservableObject {
             syncLog.removeLast(syncLog.count - 100)
         }
     }
+
+    #if DEBUG
+    private func resetLLMPerf(accountID: UUID) {
+        llmPerfByAccount[accountID] = LLMSyncPerfStats()
+    }
+
+    private func recordClassifyDuration(_ ms: Int, accountID: UUID) {
+        var stats = llmPerfByAccount[accountID] ?? LLMSyncPerfStats()
+        stats.recordClassify(ms: ms)
+        llmPerfByAccount[accountID] = stats
+    }
+
+    private func recordSummarizeDuration(_ ms: Int, accountID: UUID) {
+        var stats = llmPerfByAccount[accountID] ?? LLMSyncPerfStats()
+        stats.recordSummarize(ms: ms)
+        llmPerfByAccount[accountID] = stats
+    }
+
+    private func logAndClearLLMPerf(accountID: UUID) {
+        defer { llmPerfByAccount.removeValue(forKey: accountID) }
+        guard let stats = llmPerfByAccount[accountID], stats.hasData else {
+            return
+        }
+        appendLog("LLM perf for \(accountEmail(accountID)): \(stats.summaryText)")
+    }
+    #endif
 
     private static func senderName(from fromHeader: String) -> String {
         let trimmed = fromHeader.trimmingCharacters(in: .whitespacesAndNewlines)

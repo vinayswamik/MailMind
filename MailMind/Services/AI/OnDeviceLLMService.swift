@@ -34,6 +34,12 @@ final class OnDeviceLLMService: ObservableObject {
     /// Classifications below this confidence are treated as Uncategorized to suppress
     /// false positives. Tunable from a single place if we expose it later.
     static let minimumClassificationConfidence: Double = 0.75
+    static let classifyBodyCharacterLimit = 2_500
+    static let summarizeBodyCharacterLimit = 6_000
+    #if canImport(FoundationModels)
+    @available(iOS 26.0, *)
+    private let sessionPool = LanguageModelSessionPool()
+    #endif
 
     func classify(
         email: GmailMessageBody,
@@ -77,9 +83,13 @@ final class OnDeviceLLMService: ObservableObject {
         }
 
         let instructions = Self.buildClassifyInstructions(categories: categories, skillFiles: skillFiles)
-        let prompt = Self.buildEmailContext(email: email, includeBody: true)
+        let prompt = Self.buildEmailContext(
+            email: email,
+            includeBody: true,
+            bodyCharacterLimit: Self.classifyBodyCharacterLimit
+        )
 
-        let session = LanguageModelSession(instructions: instructions)
+        let session = await sessionPool.session(for: instructions)
         do {
             let response = try await session.respond(
                 to: prompt,
@@ -122,9 +132,13 @@ final class OnDeviceLLMService: ObservableObject {
             categoryName: matchedCategoryName,
             skillText: matchedSkillText
         )
-        let prompt = Self.buildEmailContext(email: email, includeBody: true)
+        let prompt = Self.buildEmailContext(
+            email: email,
+            includeBody: true,
+            bodyCharacterLimit: Self.summarizeBodyCharacterLimit
+        )
 
-        let session = LanguageModelSession(instructions: instructions)
+        let session = await sessionPool.session(for: instructions)
         do {
             let response = try await session.respond(
                 to: prompt,
@@ -194,7 +208,11 @@ final class OnDeviceLLMService: ObservableObject {
         """
     }
 
-    private static func buildEmailContext(email: GmailMessageBody, includeBody: Bool) -> String {
+    private static func buildEmailContext(
+        email: GmailMessageBody,
+        includeBody: Bool,
+        bodyCharacterLimit: Int? = nil
+    ) -> String {
         var lines: [String] = []
         lines.append("From: \(email.from)")
         if !email.senderDomain.isEmpty {
@@ -218,7 +236,11 @@ final class OnDeviceLLMService: ObservableObject {
         }
 
         if includeBody {
-            let body = email.plainText.isEmpty ? email.snippet : email.plainText
+            var body = email.plainText.isEmpty ? email.snippet : email.plainText
+            if let bodyCharacterLimit, body.count > bodyCharacterLimit {
+                body = String(body.prefix(bodyCharacterLimit)).trimmingCharacters(in: .whitespacesAndNewlines)
+                body += "\n\n[…truncated for on-device speed…]"
+            }
             lines.append("")
             lines.append("Body:")
             lines.append(body)
@@ -229,6 +251,40 @@ final class OnDeviceLLMService: ObservableObject {
 }
 
 #if canImport(FoundationModels)
+@available(iOS 26.0, *)
+private actor LanguageModelSessionPool {
+    private var sessionsByInstructions: [String: LanguageModelSession] = [:]
+    private var lruKeys: [String] = []
+    private let maxSessionCount = 8
+
+    func session(for instructions: String) -> LanguageModelSession {
+        if let existing = sessionsByInstructions[instructions] {
+            touch(instructions)
+            return existing
+        }
+
+        let created = LanguageModelSession(instructions: instructions)
+        sessionsByInstructions[instructions] = created
+        lruKeys.append(instructions)
+        trimIfNeeded()
+        return created
+    }
+
+    private func touch(_ key: String) {
+        if let index = lruKeys.firstIndex(of: key) {
+            lruKeys.remove(at: index)
+            lruKeys.append(key)
+        }
+    }
+
+    private func trimIfNeeded() {
+        while lruKeys.count > maxSessionCount {
+            let oldest = lruKeys.removeFirst()
+            sessionsByInstructions.removeValue(forKey: oldest)
+        }
+    }
+}
+
 @available(iOS 26.0, *)
 @Generable
 private struct GenerableClassification {
