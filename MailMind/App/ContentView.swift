@@ -25,6 +25,7 @@ struct ContentView: View {
         let llmService = OnDeviceLLMService()
         let accountStore = AccountStore()
         let categoryStore = CategoryStore()
+        let archiveStore = ArchiveStore()
         let networkService = GmailNetworkService(emailStore: emailStore, accountStore: accountStore)
         let processingService = EmailProcessingService(
             gmailClient: gmailClient,
@@ -41,7 +42,8 @@ struct ContentView: View {
         Self.refreshCategoryEmails(
             emailStore: emailStore,
             accountStore: accountStore,
-            categoryStore: categoryStore
+            categoryStore: categoryStore,
+            archivedEmailIDs: archiveStore.archivedEmailIDs
         )
 
         _emailStore = StateObject(wrappedValue: emailStore)
@@ -54,7 +56,7 @@ struct ContentView: View {
         _accountStore = StateObject(wrappedValue: accountStore)
         _categoryStore = StateObject(wrappedValue: categoryStore)
         _toastManager = StateObject(wrappedValue: ToastManager())
-        _archiveStore = StateObject(wrappedValue: ArchiveStore())
+        _archiveStore = StateObject(wrappedValue: archiveStore)
         _aiGate = StateObject(wrappedValue: AppleIntelligenceGate())
     }
 
@@ -150,6 +152,9 @@ struct ContentView: View {
             let removedIDs = Set(oldAccounts.map(\.id)).subtracting(newAccounts.map(\.id))
             for id in removedIDs {
                 emailStore.purge(accountID: id)
+                if let address = oldAccounts.first(where: { $0.id == id })?.emailAddress {
+                    archiveStore.removeAll(forDestinationAccountEmail: address)
+                }
             }
             refreshCategoryEmails()
             Task {
@@ -157,6 +162,9 @@ struct ContentView: View {
             }
         }
         .onReceive(emailStore.$stored) { _ in
+            refreshCategoryEmails()
+        }
+        .onChange(of: archiveStore.archivedEmailIDs) { _, _ in
             refreshCategoryEmails()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
@@ -168,20 +176,25 @@ struct ContentView: View {
         Self.refreshCategoryEmails(
             emailStore: emailStore,
             accountStore: accountStore,
-            categoryStore: categoryStore
+            categoryStore: categoryStore,
+            archivedEmailIDs: archiveStore.archivedEmailIDs
         )
     }
 
     private static func refreshCategoryEmails(
         emailStore: EmailStore,
         accountStore: AccountStore,
-        categoryStore: CategoryStore
+        categoryStore: CategoryStore,
+        archivedEmailIDs: Set<UUID>
     ) {
         let accountIDs = accountStore.accounts
             .filter { $0.connectionStatus == .connected && $0.includeInCategorization }
             .map(\.id)
         for name in categoryStore.presetCategories.map(\.name) + categoryStore.userCategories.map(\.name) {
-            categoryStore.setEmails(emailStore.emails(forCategory: name, accountIDs: accountIDs), for: name)
+            let emails = emailStore
+                .emails(forCategory: name, accountIDs: accountIDs)
+                .filter { !archivedEmailIDs.contains($0.id) }
+            categoryStore.setEmails(emails, for: name)
         }
     }
 

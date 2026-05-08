@@ -133,7 +133,7 @@ struct DeveloperSettingsView: View {
             } header: {
                 Text("Sync Tools")
             } footer: {
-                Text("Reset clears the Gmail history cursor so the next sync re-establishes a baseline. Re-process runs the 10 newest messages. Simulate Silent Wake exercises the APNs wake handler with route-only payload data. Register Test Device sends a test APNs token to the backend so webhook routing can be verified without a real push certificate.")
+                Text("Reset clears the Gmail history cursor so the next sync re-establishes a baseline. Re-process scans the 10 newest messages and only routes ones not already in the processed set (no duplicates). Simulate Silent Wake exercises the APNs wake handler with route-only payload data. Register Test Device sends a test APNs token to the backend so webhook routing can be verified without a real push certificate.")
             }
 
             Section("Processing Log") {

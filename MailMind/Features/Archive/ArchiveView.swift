@@ -4,6 +4,10 @@ struct ArchiveView: View {
     @EnvironmentObject private var archiveStore: ArchiveStore
     @EnvironmentObject private var categoryStore: CategoryStore
     @EnvironmentObject private var toastManager: ToastManager
+    @EnvironmentObject private var emailStore: EmailStore
+    @EnvironmentObject private var processedStore: ProcessedMessageStore
+
+    @State private var pendingRemoval: ArchivedEmail?
 
     var body: some View {
         Group {
@@ -13,9 +17,11 @@ struct ArchiveView: View {
                 ScrollView {
                     LazyVStack(spacing: 10) {
                         ForEach(archiveStore.archivedEmails) { entry in
-                            ArchiveRow(entry: entry) {
-                                unarchive(entry)
-                            }
+                            ArchiveRow(
+                                entry: entry,
+                                onUnarchive: { unarchive(entry) },
+                                onRequestRemove: { pendingRemoval = entry }
+                            )
                         }
                     }
                     .padding(.horizontal, 16)
@@ -26,6 +32,26 @@ struct ArchiveView: View {
         }
         .navigationTitle("Archived (\(archiveStore.archivedEmails.count))")
         .navigationBarTitleDisplayMode(.inline)
+        .alert(
+            "Remove this email?",
+            isPresented: Binding(
+                get: { pendingRemoval != nil },
+                set: { if !$0 { pendingRemoval = nil } }
+            ),
+            presenting: pendingRemoval
+        ) { entry in
+            Button("Cancel", role: .cancel) {
+                pendingRemoval = nil
+            }
+            Button("Remove", role: .destructive) {
+                confirmPermanentRemoval(entry)
+                pendingRemoval = nil
+            }
+        } message: { entry in
+            Text(
+                "“\(entry.email.subject)” will be deleted from MailMind and unmarked for this Gmail account. After the next sync it can be categorized again. This cannot be undone."
+            )
+        }
     }
 
     private var emptyState: some View {
@@ -45,6 +71,16 @@ struct ArchiveView: View {
                 .padding(.horizontal, 32)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func confirmPermanentRemoval(_ entry: ArchivedEmail) {
+        if let record = emailStore.storedRecord(emailID: entry.email.id) {
+            processedStore.unmarkProcessed(record.messageID, account: record.accountID)
+        }
+        emailStore.removeStoredEmail(emailID: entry.email.id)
+        archiveStore.remove(id: entry.id)
+        toastManager.show("Removed — this message can sync again", style: .success)
+        HapticManager.success()
     }
 
     private func unarchive(_ entry: ArchivedEmail) {
@@ -89,15 +125,18 @@ struct ArchiveView: View {
 private struct ArchiveRow: View {
     let entry: ArchivedEmail
     let onUnarchive: () -> Void
+    let onRequestRemove: () -> Void
 
     var body: some View {
         content
             .background(Color(.secondarySystemGroupedBackground))
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .revealSwipeActions(
+                leading: removeAction,
                 trailing: unarchiveAction,
                 style: .archiveRow
             )
+            .accessibilityHint("Swipe right to remove from MailMind, swipe left to unarchive.")
     }
 
     private var content: some View {
@@ -138,6 +177,17 @@ private struct ArchiveRow: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    private var removeAction: RevealSwipeAction {
+        RevealSwipeAction(
+            title: "Remove",
+            systemImage: "trash.fill",
+            tint: .red,
+            haptic: .warning
+        ) {
+            onRequestRemove()
+        }
+    }
+
     private var unarchiveAction: RevealSwipeAction {
         RevealSwipeAction(
             title: "Unarchive",
@@ -156,4 +206,6 @@ private struct ArchiveRow: View {
     .environmentObject(ArchiveStore())
     .environmentObject(CategoryStore())
     .environmentObject(ToastManager())
+    .environmentObject(EmailStore())
+    .environmentObject(ProcessedMessageStore())
 }

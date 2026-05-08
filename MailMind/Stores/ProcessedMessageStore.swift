@@ -61,6 +61,24 @@ final class ProcessedMessageStore: ObservableObject {
         }
     }
 
+    /// Removes a Gmail message id from the processed set so a future sync can classify it again.
+    func unmarkProcessed(_ messageID: String, account: UUID) {
+        queue.sync(flags: .barrier) {
+            ensureLoaded(account: account)
+
+            guard var set = processedSetByAccount[account],
+                  set.remove(messageID) != nil else {
+                return
+            }
+
+            var ids = processedIDsByAccount[account] ?? []
+            ids.removeAll { $0 == messageID }
+            processedIDsByAccount[account] = ids
+            processedSetByAccount[account] = set
+            persistIDs(ids, account: account)
+        }
+    }
+
     func pendingMessageIDs(account: UUID) -> [String] {
         queue.sync {
             ensurePendingLoaded(account: account)

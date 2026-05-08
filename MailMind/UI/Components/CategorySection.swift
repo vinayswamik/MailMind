@@ -20,6 +20,10 @@ struct CategorySection: View {
         isExpanded ? emails : []
     }
 
+    private var canExpandList: Bool {
+        !emails.isEmpty
+    }
+
     private var canDelete: Bool {
         onDelete != nil && emails.isEmpty
     }
@@ -57,48 +61,61 @@ struct CategorySection: View {
             .opacity(isEnabled ? 1 : 0.55)
     }
 
+    @ViewBuilder
+    private func categoryHeaderRow(showChevron: Bool) -> some View {
+        HStack(spacing: 12) {
+            CategoryIcon(name: title)
+
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 6) {
+                    if showsLock {
+                        Image(systemName: "lock.fill")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Text(title)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                }
+
+                Text("\(emails.count) \(emails.count == 1 ? "email" : "emails")")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            if showChevron {
+                Image(systemName: "chevron.down")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
+            }
+        }
+    }
+
     private var cardContent: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                Button {
-                    withAnimation(.snappy) {
-                        isExpanded.toggle()
-                    }
-                } label: {
-                    HStack(spacing: 12) {
-                        CategoryIcon(name: title)
-
-                        VStack(alignment: .leading, spacing: 2) {
-                            HStack(spacing: 6) {
-                                if showsLock {
-                                    Image(systemName: "lock.fill")
-                                        .font(.caption2)
-                                        .foregroundStyle(.secondary)
-                                }
-
-                                Text(title)
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.primary)
-                                    .lineLimit(1)
+                Group {
+                    if canExpandList {
+                        Button {
+                            withAnimation(.snappy) {
+                                isExpanded.toggle()
                             }
-
-                            Text("\(emails.count) \(emails.count == 1 ? "email" : "emails")")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
+                        } label: {
+                            categoryHeaderRow(showChevron: true)
+                                .contentShape(Rectangle())
                         }
-
-                        Spacer()
-
-                        Image(systemName: "chevron.down")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.secondary)
-                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .buttonStyle(.plain)
+                    } else {
+                        categoryHeaderRow(showChevron: false)
                     }
-                    .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
                 .contextMenu {
                     if let onEdit {
                         Button {
@@ -132,22 +149,7 @@ struct CategorySection: View {
                         .padding(.leading)
 
                     ShimmerView(rowCount: 3)
-                } else if emails.isEmpty {
-                    Divider()
-                        .padding(.leading)
-
-                    HStack(spacing: 8) {
-                        Image(systemName: "checkmark.circle")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        Text("No emails here yet")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                } else {
+                } else if canExpandList {
                     ForEach(visibleEmails) { email in
                         Divider()
                             .padding(.leading)

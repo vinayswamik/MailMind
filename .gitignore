@@ -49,5 +49,5 @@ AuthKey_*.p8
 MailMind/Info.plist
 
 # Internal ops / handoff (optional; remove these lines if you want them public)
+AGENTS.md
 APNS_WHEN_READY.md
-CLAUDE_HANDOFF.md

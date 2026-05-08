@@ -159,6 +159,31 @@ final class EmailStore: ObservableObject {
         }
     }
 
+    func storedRecord(emailID: Email.ID) -> StoredEmail? {
+        stored.first { $0.email.id == emailID }
+    }
+
+    /// Deletes the stored categorized row for this MailMind email id (primary key in SQLite).
+    func removeStoredEmail(emailID: Email.ID) {
+        guard let databasePool else {
+            stored.removeAll { $0.email.id == emailID }
+            persistLegacy()
+            return
+        }
+
+        do {
+            try databasePool.write { db in
+                try db.execute(
+                    sql: "DELETE FROM stored_emails WHERE id = ?",
+                    arguments: [emailID.uuidString]
+                )
+            }
+            refreshStoredSnapshot()
+        } catch {
+            return
+        }
+    }
+
     func remove(accountID: UUID, messageID: String) -> StoredEmail? {
         guard let databasePool else {
             guard let index = stored.firstIndex(where: { $0.accountID == accountID && $0.messageID == messageID }) else {

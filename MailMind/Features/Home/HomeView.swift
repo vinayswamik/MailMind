@@ -245,8 +245,12 @@ struct HomeView: View {
         let accountIDs = accountStore.accounts
             .filter { $0.connectionStatus == .connected && $0.includeInCategorization }
             .map(\.id)
+        let archivedIDs = archiveStore.archivedEmailIDs
         for name in categoryStore.presetCategories.map(\.name) + categoryStore.userCategories.map(\.name) {
-            categoryStore.setEmails(emailStore.emails(forCategory: name, accountIDs: accountIDs), for: name)
+            let emails = emailStore
+                .emails(forCategory: name, accountIDs: accountIDs)
+                .filter { !archivedIDs.contains($0.id) }
+            categoryStore.setEmails(emails, for: name)
         }
     }
 

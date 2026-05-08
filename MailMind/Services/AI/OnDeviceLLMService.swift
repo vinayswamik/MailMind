@@ -36,10 +36,6 @@ final class OnDeviceLLMService: ObservableObject {
     static let minimumClassificationConfidence: Double = 0.75
     static let classifyBodyCharacterLimit = 2_500
     static let summarizeBodyCharacterLimit = 6_000
-    #if canImport(FoundationModels)
-    @available(iOS 26.0, *)
-    private let sessionPool = LanguageModelSessionPool()
-    #endif
 
     func classify(
         email: GmailMessageBody,
@@ -89,7 +85,7 @@ final class OnDeviceLLMService: ObservableObject {
             bodyCharacterLimit: Self.classifyBodyCharacterLimit
         )
 
-        let session = await sessionPool.session(for: instructions)
+        let session = await LanguageModelSessionPools.shared.session(for: instructions)
         do {
             let response = try await session.respond(
                 to: prompt,
@@ -138,7 +134,7 @@ final class OnDeviceLLMService: ObservableObject {
             bodyCharacterLimit: Self.summarizeBodyCharacterLimit
         )
 
-        let session = await sessionPool.session(for: instructions)
+        let session = await LanguageModelSessionPools.shared.session(for: instructions)
         do {
             let response = try await session.respond(
                 to: prompt,
@@ -251,6 +247,11 @@ final class OnDeviceLLMService: ObservableObject {
 }
 
 #if canImport(FoundationModels)
+@available(iOS 26.0, *)
+private enum LanguageModelSessionPools {
+    static let shared = LanguageModelSessionPool()
+}
+
 @available(iOS 26.0, *)
 private actor LanguageModelSessionPool {
     private var sessionsByInstructions: [String: LanguageModelSession] = [:]
